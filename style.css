@@ -1,0 +1,62 @@
+body {
+	background-image: url("images/background.jpg");
+	background-size: cover;
+}
+
+label,
+p,
+h1 {
+	color: white;
+	font-weight: bold;
+}
+
+form {
+	background-color: rgba(51, 51, 255, 0.5);
+	display: flex;
+	justify-content: space-around;
+	margin: 5%;
+}
+
+a {
+	color: white;
+	padding: 10px;
+	background-color: rgba(51, 51, 255, 0.5);
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+h1 {
+	text-align: center;
+}
+
+input[type = "submit"] {
+	border: none;
+	border-radius: 20%;
+}
+
+input[type = "text"],
+input[type = "number"],
+input[type = "date"] {
+	color: white;
+	font-weight: bold;
+	background-color: #000066;
+}
+
+input[disabled] {
+	border: none;
+	background-color: rgba(102, 102, 255, 0.5);
+}
+
+div {
+	display: inline-block;
+	flex-grow: 1;
+}
+
+.row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}

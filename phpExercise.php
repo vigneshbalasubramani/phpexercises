@@ -11,7 +11,7 @@
 		<table>
 			<tbody>
 				<tr>
-					<td><label for = "name">Name :</label></td>
+					<td><label for = "name">Name:</label></td>
 					<td><input type = "text" name = "name" id = "name" required/></td>
 				</tr>
 				<tr>
@@ -34,12 +34,13 @@
 				</tr>
 			</tbody>
 		</table>
+	</form>
 <?php 
-	$name = $_POST['name'];
-	$dob = $_POST['dob'];
-	$number1 = $_POST['number1'];
-	$number2 = $_POST['number2'];
-	$submit = $_POST['submit'];
+		$name = $_POST['name'];
+		$dob = $_POST['dob'];
+		$number1 = $_POST['number1'];
+		$number2 = $_POST['number2'];
+		$submit = $_POST['submit'];
 
 	function addTwoNumbers($number1, $number2) {
 		$sum = $number1 + $number2;
@@ -51,6 +52,30 @@
 		return $product;
 	}
 
+	function addToDatabase($name, $dob) {
+		$database = "php_tutorial";
+		$host = "mysql:host=localhost;dbname=php_tutorial";
+		$username = "vignesh";
+		$password =  "asdfgf";
+		$sql = "insert into users(name, dob) values(:name, :dob)";
+		try{
+			$connection = new PDO($host, $username, $password);
+			$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$statement = $connection->prepare($sql);
+			$statement->bindParam(':name', $name);
+			$statement->bindParam(':dob', $dob);
+			if($statement->execute()){
+				echo "successfully insert";
+			} else {
+				echo "fail";
+			}
+		}
+		catch(PDOException $e) {
+			echo "connection failed" . $e->getMessage();
+		}
+		$connection = null;
+	}
+
 	if(isset($submit)) {
 		if($submit == 'add') {
 			$result = addTwoNumbers($number1, $number2);
@@ -58,10 +83,11 @@
 		else {
 			$result = multiplyTwoNumbers($number1, $number2);
 		}
+		addToDatabase($name, $dob);
 		$output = 'welcome ' . $name . '<br/>' . $dob . '<br/>' . $result;
 		echo "<textarea>" . $output . "</textarea>";
 	}
 ?>
-	</form>
+
 </body>
 </html>

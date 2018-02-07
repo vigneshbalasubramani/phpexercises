@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<form method = "post" action = "welcomeuser.php">
+		<div class = "row">
+			<div>
+				<label for = "name">RegisterNumber :</label>
+			</div>
+			<div>	
+				<input type = "text" name = "name" id = "name" pattern = "[0-9]{12}" title = "12 digits only" required/>
+			</div>
+		</div>
+		<div class = "row">
+			<div>
+				<label for = "dob">Date of birth:</label>
+			</div>
+			<div>
+				<input type = "date" name = "dob" id = "dob" required/>
+			</div>
+		</div>
+		<div class = "row">
+			<div>
+				<input type = "submit" name = "submit" value = "signup"/>
+			</div>
+		</div>
+	</form>
+	<a href = "login.php">Go Back</a>
+</body>
+</html>
