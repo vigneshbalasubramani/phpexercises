@@ -1,6 +1,6 @@
 <?php
-	include '../config/database.php';
-	include '../objects/product.php';
+	include_once '../config/database.php';
+	include_once '../objects/product.php';
 
 	$database;
 	$statement;
@@ -28,7 +28,7 @@
 			$jsonArray["status"] = "error";
 			echo "no products found";
 		}
-		echo json_encode($jsonArray);
+		return json_encode($jsonArray);
 	}
 
 	function dbReadUsers() {
@@ -52,7 +52,7 @@
 			$jsonArray["status"] = "error";
 			echo "no users found";
 		}
-		echo json_encode($jsonArray);
+		return json_encode($jsonArray);
 	}
 
 	function dbRead($query) {
@@ -70,6 +70,6 @@
 		return $statement;	
 	}
 
-	dbReadProducts();
+	// dbReadProducts();
 
 ?>

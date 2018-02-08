@@ -23,6 +23,6 @@ window.onload = function() {
 		// request.open("POST", "api/logic/login.php");
 		// request.send(formData);
 		// window.location = "api/logic/login.php";
-		form.submit(formData);
+		// form.submit(formData);
 	}
 }

@@ -1,12 +1,12 @@
 <?php
-	include '../config/database.php';
-	include '../objects/product.php';
+	include_once '../config/database.php';
+	include_once '../objects/product.php';
 
 	$database;
 	$statement;
 
 	function dbReadProduct($productId) {
-		$statement = dbRead("select * from invoice.product where product_id = ?", [$productId]);
+		$statement = dbReadonce("select * from invoice.product where product_id = ?", [$productId]);
 		$rowCount = $statement -> rowCount();
 		if($rowCount > 0){
 			$row = $statement -> fetch(PDO::FETCH_ASSOC);
@@ -26,11 +26,11 @@
 			);
 			echo "no products found";
 		}
-		echo json_encode($productItem);
+		return json_encode($productItem);
 	}
 
 	function dbReadUser($userId) {
-		$statement = dbRead("select * from invoice.user where user_id = ?", [$userId]);
+		$statement = dbReadOnce("select * from invoice.user where user_id = ?", [$userId]);
 		$rowCount = $statement -> rowCount();
 		if($rowCount > 0){
 			$row = $statement -> fetch(PDO::FETCH_ASSOC);
@@ -48,13 +48,13 @@
 			);
 			echo "no users found";
 		}
-		echo json_encode($userItem);
+		return json_encode($userItem);
 	}
 
 	function dbAuthenticateUser($userName, $userPassword) {
 		$encryptedPassword = md5($userPassword);
 		$credentials = array( $userName, $encryptedPassword);
-		$statement = dbRead("select user_type from invoice.user where user_name = ? and user_password = ?", $credentials);
+		$statement = dbReadOnce("select user_type from invoice.user where user_name = ? and user_password = ?", $credentials);
 		$rowCount = $statement -> rowCount();
 		if($rowCount > 0){
 			$row = $statement -> fetch(PDO::FETCH_ASSOC);
@@ -67,7 +67,7 @@
 		}
 	}
 
-	function dbRead($query, $param) {
+	function dbReadOnce($query, $param) {
 		$statement;
 		try{
 			$database = new Database();

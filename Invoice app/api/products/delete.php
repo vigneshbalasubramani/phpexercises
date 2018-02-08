@@ -7,7 +7,6 @@
 
 	function dbDeleteUser($userId) {
 		if(dbDelete("delete from invoice.user where user_id = ?", [$userId])) {
-			echo 'success';
 			return true;
 		}
 		else {
@@ -17,7 +16,6 @@
 
 	function dbDeleteProduct($productId) {
 		if(dbDelete("delete from invoice.product where product_id = ?", [$productId])) {
-			echo 'success';
 			return true;
 		}
 		else {

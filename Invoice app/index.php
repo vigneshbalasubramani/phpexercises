@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Login page</title>
-	<link rel="stylesheet" href="">
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
 	<h1>Login to proceed</h1>
@@ -15,6 +15,7 @@
 		<input type = "password" name = "password" id = "password" placeholder="minimum 6 characters" minlength="6" required><br>
 		<input type = "submit" name = "login" value="login">
 	</form>
-	<script src = "jsonConverter.js"></script>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+	<!-- <script src = "jsonConverter.js"></script> -->
 </body>
 </html>

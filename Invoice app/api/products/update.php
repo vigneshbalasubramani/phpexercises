@@ -1,13 +1,12 @@
 <?php
-	include '../config/database.php';
-	include '../objects/product.php';
+	include_once '../config/database.php';
+	include_once '../objects/product.php';
 
 	$database;
 	$statement;
 
 	function dbUpdateProductQuantity($productId, $productQuantity) {
 		if(dbUpdate("update invoice.product set product_quantity = ? where product_id = ?", [$productQuantity, $productId])) {
-			echo 'success';
 			return true;
 		}
 		else {
@@ -17,7 +16,6 @@
 
 	function dbUpdateProductPrice($productId, $productPrice) {
 		if(dbUpdate("update invoice.product set product_price = ? where product_id = ?", [$productPrice, $productId])) {
-			echo 'success';
 			return true;
 		}
 		else {

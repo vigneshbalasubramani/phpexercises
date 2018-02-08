@@ -1,0 +1,75 @@
+body {
+	background: linear-gradient(to left bottom, green, yellow, red);
+}
+
+a {
+	text-decoration: none;
+	color: green;
+	padding: 10px;
+	font-weight: bold;
+}
+
+.active {
+	color: orange;
+}
+
+ul {
+	list-style: none;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	/*background-color: #ff3300;*/
+	background-color: white;
+}
+
+li {
+	padding: 10px 0px;
+	display: block;
+	flex-grow: 1;
+}
+
+form {
+	background-color: #ff3300;
+	padding: 10%;
+	color: white;
+	font-weight: bold;
+}
+
+input[type = "text"],
+select,
+input[type = "password"] {
+	border-radius: 5px;
+	margin: 20px 0px;
+	padding: 5px;
+}
+
+input[type = "text"]:focus,
+input[type = "password"]:focus {
+	outline: 2px solid orange;
+}
+
+input[type = "submit"] {
+	border: none;
+	border-radius: 10px;
+	padding: 5px;
+	background-color: #009933;
+	position: relative;
+	left: 5%;
+}
+
+input[type = "submit"]:hover {
+	box-shadow: 2px 3px #003311;
+}
+
+li:hover {
+	background-color: orange;
+}
+
+a:hover {
+	color: white;
+}
+
+th {
+	background-color: 
+}
