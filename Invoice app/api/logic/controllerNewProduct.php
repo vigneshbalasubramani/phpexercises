@@ -3,6 +3,9 @@
 	include_once '../objects/product.php';
 
 	session_start();
+	if(!isset($_SESSION['userType'])) {
+		header("Location: ../../index.php?invalidUser='true'");
+	}
 	$productName;
 	$productQuantity;
 	$productUnit;
@@ -19,11 +22,8 @@
 		$product -> setProductQuantity($json["data"]["productQuantity"]);
 		$product -> setProductUnit($json["data"]["productUnit"]);
 		$product -> setProductPrice($json["data"]["productPrice"]);
-		if(dbInsertProduct($product)) {
-			echo "successfully inserted<br/>";
-			echo "<a href = '../../newProduct.php'>Go Back</a>";
-		}
-		// echo "failure";
+		
+		return dbInsertProduct($product);
 	}
 
 	if(isset($_POST['addProduct'])) {
@@ -43,16 +43,18 @@
 			"productPrice" => $productPrice
 		);
 		$jsonObject = json_encode($jsonData);
-		addProduct($jsonObject);
+		if(addProduct($jsonObject)) {
+			echo "successfully inserted<br/>";
+		}
+		else{
+			echo "cannot be inserted<br/>";
+		}
+		echo "<a href = '../../newProduct.php'>Go Back</a>";
+
 	}
 	else {
-		$json = json_decode(file_get_contents("php://input"), true);
-		$product = new Product();
-		$product -> setProductName($json["data"]["productName"]);
-		$product -> setProductQuantity($json["data"]["productQuantity"]);
-		$product -> setProductUnit($json["data"]["productUnit"]);
-		$product -> setProductPrice($json["data"]["productPrice"]);
-		if(dbInsertProduct($product)) {
+		$json = file_get_contents("php://input");
+		if(addProduct($json)) {
 			$jsonResponse = array(
 				"status" => "success"
 			);

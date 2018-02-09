@@ -4,6 +4,9 @@
 	include_once '../objects/product.php';
 
 	session_start();
+	if(!isset($_SESSION['userType'])) {
+		header("Location: ../../index.php?invalidUser='true'");
+	}
 	$productName;
 	$productQuantity;
 	$productUnit;
@@ -29,43 +32,28 @@
 			// echo "success";
 		// echo "failure";
 	}
-
-	if(isset($_POST['viewAllProducts'])) {
-		// $userId = $_POST['userId'];
-		// initializeVariables();
+	if(isset($_POST['viewProduct'])) {
 		$jsonData = array();
-		$jsonData["task"] = "viewAll";
-		$jsonData["target"] = "product";
-		$jsonData["source"] = $_SESSION['user'];
-		$jsonObject = json_encode($jsonData);
-		$jsonResponse = json_decode(viewProducts($jsonObject), true);
-		$jsonResponseData = $jsonResponse['products'];
-		$userDetails = "<table><tr><th>Product Id</th><th>Product name</th><th>Product Quantity</th><th>Product Unit</th><th>Product Price</th></tr>";
+		if(trim($_POST["productId"]) != null){
+			$jsonData["productId"] = $_POST['productId'];
+			$jsonObject = json_encode($jsonData);
+			$jsonResponse = viewProduct($jsonObject);
+			$jsonResponseData = json_decode($jsonResponse, true);
+		}
+		else {
+			$jsonObject = json_encode($jsonData);
+			$jsonResponse = viewProducts($jsonObject);
+			$jsonResponseData = json_decode($jsonResponse, true);
+			$jsonResponseData = $jsonResponseData['products'];
+		}
+		$productDetails = "<table><tr><th>Product Id</th><th>Product name</th><th>Product Quantity</th><th>Product Unit</th><th>Product Price</th></tr><tr>";
 		for($count = 0; $count < count($jsonResponseData); $count++){
-			$userDetails = $userDetails . "<tr>";
+			$productDetails = $productDetails . "<tr>";
 			foreach ($jsonResponseData[$count] as $key => $value) {
-				$userDetails = $userDetails . "<td>" . $value . "</td>";
+				$productDetails = $productDetails . "<td>" . $value . "</td>";
 			}
-			$userDetails = $userDetails . "</tr>";
+			$productDetails = $productDetails . "</tr>";
 		}
-		$userDetails = $userDetails . "</table>";
-		
-		echo $userDetails;
-		echo "<a href = '../../viewProducts.php'>Go Back</a>";
-	}
-	else if(isset($_POST['viewProduct'])) {
-		$jsonData = array();
-		$jsonData["task"] = "view";
-		$jsonData["target"] = "product";
-		$jsonData["source"] = $_SESSION['user'];
-		$jsonData["productId"] = $_POST['productId'];
-		$jsonObject = json_encode($jsonData);
-		$jsonResponseData = json_decode(viewProduct($jsonObject), true);
-		$productDetails = "<table><tr><th>Product Id</th><th>Product name</th><th>Product Quantity</th><th>Product Unit</th><th>Product Price</th><th>Fetch status</th></tr><tr>";
-		foreach ($jsonResponseData as $key => $value) {
-			$productDetails = $productDetails . "<td>" . $value . "</td>";
-		}
-		$productDetails = $productDetails . "</tr>";
 		$productDetails = $productDetails . "</table>";
 		
 		echo $productDetails;

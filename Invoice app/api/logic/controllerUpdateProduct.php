@@ -1,7 +1,11 @@
 <?php
-	include_once '../products/update.php';
-
 	session_start();
+	include_once '../products/update.php';
+	include_once '../products/read_one.php';
+	include_once '../products/read_specifics.php';
+	if(!isset($_SESSION['userType'])) {
+		header("Location: ../../index.php?invalidUser='true'");
+	}
 	$jsonData;
 
 	// function initializeVariables() {
@@ -26,68 +30,65 @@
 		// echo "failure";
 	}
 
-	if(isset($_POST['updateProductQuantity'])) {
-		// $userId = $_POST['userId'];
-		// initializeVariables();
-		$jsonData = array();
-		$jsonData["task"] = "updateQuantity";
-		$jsonData["target"] = "product";
-		$jsonData["source"] = $_SESSION['user'];
-		$jsonData["productId"] = $_POST['productId'];
-		$jsonData["productQuantity"] = $_POST['productQuantity'];
-		$jsonObject = json_encode($jsonData);
-		if(updateProductQuantity($jsonObject)) {
-			echo "successfully updated product quantity to " . $jsonData["productQuantity"];
+	function updateProduct($jsonObject) {
+		$json = json_decode($jsonObject, true);
+		if($json["productQuantity"] != null && $json["productPrice"] != null) {
+			if(updateProductQuantity($jsonObject) && updateProductPrice($jsonObject)) {
+				return 1;
+			}
 		}
-		else {
-			echo "cannot update product quantity to " . $jsonData["productQuantity"];
+		else if($json["productPrice"] != null && $json["productQuantity"] == null) {
+			if(updateProductPrice($jsonObject)) {
+				return 2;
+			}
 		}
-		echo "<a href = '../../updateProduct.php'>Go Back</a>";
+		else if($json["productQuantity"] != null && $json["productPrice"] == null) {
+			if(updateProductQuantity($jsonObject)) {
+				return 3;
+			}
+		}
+		return 0;
 	}
-	else if(isset($_POST['updateProductPrice'])) {
+
+	if(isset($_POST['updateProduct'])) {
 		// $userId = $_POST['userId'];
 		// initializeVariables();
 		$jsonData = array();
-		$jsonData["task"] = "updatePrice";
+		$jsonData["task"] = "update";
 		$jsonData["target"] = "product";
 		$jsonData["source"] = $_SESSION['user'];
 		$jsonData["productId"] = $_POST['productId'];
-		$jsonData["productPrice"] = $_POST['productPrice'];
+		$jsonData["productQuantity"] = trim($_POST['productQuantity']);
+		$jsonData["productPrice"] = trim($_POST['productPrice']);
 		$jsonObject = json_encode($jsonData);
-		if(updateProductPrice($jsonObject)) {
-			echo "successfully updated product price to " . $jsonData["productPrice"];
+		$response = updateProduct($jsonObject);
+		if($response == 0) {
+			echo "your update request is invalid";
+		}
+		else if($response == 1) {
+			echo "successfully updated price and quantity of " . readProductName($jsonData["productId"]) . " to " . $jsonData["productPrice"] . " and " . $jsonData["productQuantity"] . " respectively";
+		}
+		else if($response == 2) {
+			echo "successfully updated price of " . readProductName($jsonData["productId"]) . " to " . $jsonData["productPrice"];
 		}
 		else {
-			echo "cannot update product price to " . $jsonData["productPrice"];
+			echo "successfully updated quantity of " . readProductName($jsonData["productId"]) . " to" . $jsonData["productQuantity"];
 		}
 		echo "<a href = '../../updateProduct.php'>Go Back</a>";
 	}
 	else {
-		$json = json_decode(file_get_contents("php://input"), true);
-		$productId = $json['productId'];
-		$productPrice = $json['productPrice'];
-		$action = $json["task"];
+		$json = file_get_contents("php://input");
 		$jsonSuccessResponse = array(
 			"status" => "success"
 		);
 		$jsonFailureResponse = array(
 			"status" => "failure"
 		);
-		if(strcmp($action, "updatePrice") == 0){
-			if(dbUpdateProductPrice($productId, $productPrice)) {
-				echo json_encode($jsonSuccessResponse);
-			}
-			else {
-				echo json_encode($jsonFailureResponse);
-			}
+		if(updateProduct($json) == 0) {
+			echo $jsonFailureResponse;
 		}
 		else {
-			if(dbUpdateProductQuantity($productId, $productQuantity)) {
-				echo json_encode($jsonSuccessResponse);
-			}
-			else{
-				echo json_encode($jsonFailureResponse);
-			}
+			echo $jsonSuccessResponse;
 		}
 	}
 ?>

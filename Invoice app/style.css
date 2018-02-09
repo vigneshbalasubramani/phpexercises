@@ -1,16 +1,26 @@
 body {
-	background: linear-gradient(to left bottom, green, yellow, red);
+	background-image: url("api/media/background.jpg");
+	background-size: cover;
+	color: white;
 }
 
 a {
 	text-decoration: none;
-	color: green;
-	padding: 10px;
+	display: inline-block;
+	color: #f69901;
 	font-weight: bold;
+	margin: 1px;
+	padding-bottom: 2px;
+	text-align: center;
+}
+
+li a {
+	width: 95%;
+	height: 100%;
 }
 
 .active {
-	color: orange;
+	border-bottom: 2px solid #f69901;
 }
 
 ul {
@@ -20,20 +30,25 @@ ul {
 	flex-wrap: wrap;
 	justify-content: space-between;
 	/*background-color: #ff3300;*/
-	background-color: white;
 }
 
 li {
-	padding: 10px 0px;
+	height: 3%;
 	display: block;
 	flex-grow: 1;
+	padding-bottom: 2px;
 }
 
 form {
-	background-color: #ff3300;
-	padding: 10%;
+	background-color: rgba(255, 255, 255, 0.6);
+	padding: 5%;
 	color: white;
 	font-weight: bold;
+	width: 40%;
+	margin-left: 25%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
 }
 
 input[type = "text"],
@@ -41,35 +56,52 @@ select,
 input[type = "password"] {
 	border-radius: 5px;
 	margin: 20px 0px;
-	padding: 5px;
+	padding: 6px;
 }
 
 input[type = "text"]:focus,
 input[type = "password"]:focus {
-	outline: 2px solid orange;
+	outline: 2px solid #0033cc;
 }
 
 input[type = "submit"] {
-	border: none;
-	border-radius: 10px;
+	border: 2px solid #0b1740;
 	padding: 5px;
-	background-color: #009933;
-	position: relative;
-	left: 5%;
+	color: #0b1740;
 }
 
 input[type = "submit"]:hover {
-	box-shadow: 2px 3px #003311;
-}
-
-li:hover {
-	background-color: orange;
+	background-color: #0b1740;
+	color: white;
+	border-color: white;
 }
 
 a:hover {
-	color: white;
+	border-bottom: 2px solid #f69901;
 }
 
 th {
-	background-color: 
+	background-color: white;
+	color: #0b1407;
+}
+
+td {
+	background-color: #0066ff;
+	color: white;
+	text-align: center;
+}
+
+h1 {
+	color: white;
+	text-align: center;
+}
+
+label {
+	color: #0b1407;
+}
+
+table {
+	width: 40%;
+	margin-left: 25%;
+	border-collapse: collapse;
 }

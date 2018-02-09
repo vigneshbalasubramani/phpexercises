@@ -11,22 +11,22 @@
 		if($rowCount > 0){
 			$row = $statement -> fetch(PDO::FETCH_ASSOC);
 			extract($row);
-			$productItem = array (
+			$product = array();
+			$product[0] = array (
 				"productId" => $product_id,
 				"productName" => $product_name,
 				"productQuantity" => $product_quantity,
 				"productUnit" => $product_unit,
-				"productPrice" => $product_price,
-				"status" => "success"
+				"productPrice" => $product_price
 			);
 		}
 		else {
-			$productItem = array(
+			$product = array(
 				"status" => "error"
 			);
 			echo "no products found";
 		}
-		return json_encode($productItem);
+		return json_encode($product);
 	}
 
 	function dbReadUser($userId) {

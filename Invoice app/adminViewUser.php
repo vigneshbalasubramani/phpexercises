@@ -1,6 +1,12 @@
 <?php
 	session_start();
 	echo "Welcome " . $_SESSION["user"];
+	if(!isset($_SESSION['userType'])) {
+		header("Location: index.php?invalidUser='true'");
+	}
+	else if(strcmp($_SESSION['userType'], "employee") == 0) {
+		header("Location: index.php?invalidUser='true'");
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -14,7 +20,7 @@
 	<nav>
 		<ul>
 			<li><a href = "adminHomePage.php">Home</a></li>
-			<li><a href = "adminViewUser.php" class = "active">View all users</a></li>
+			<li><a href = "api/logic/controllerViewUser.php?viewUsers='true'" class = 'active'>View all users</a></li>
 			<li><a href = "newProduct.php">Add a new Product</a></li>
 			<li><a href = "viewProducts.php">View all the products</a></li>
 			<li><a href = "updateProduct.php">Update products</a></li>
@@ -22,8 +28,8 @@
 			<li><a href = "api/logic/logout.php">Logout</a></li>
 		</ul>
 	</nav>
-	<form action = "api/logic/controllerViewUser.php" method = "post">
-		<input type = "submit" name = "viewUser" value = "view all users"/>
-	</form>
+	<?php
+		echo $_SESSION['userDetails'];
+	?>
 </body>
 </html>

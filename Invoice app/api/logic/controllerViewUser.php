@@ -3,8 +3,11 @@
 	include_once '../objects/user.php';
 
 	session_start();
-	if(!isset($_SESSION['userType']) || strcmp($_SESSION['userType'], "admin") != 0){
-		header("Location: ../../index.php");
+	if(!isset($_SESSION['userType'])) {
+		header("Location: ../../index.php?invalidUser='true'");
+	}
+	else if(strcmp($_SESSION['userType'], "employee") == 0) {
+		header("Location: ../../index.php?invalidUser='true'");
 	}
 	$userName;
 	$userType;
@@ -23,7 +26,7 @@
 		// echo "failure";
 	}
 
-	if(isset($_POST['viewUser'])) {
+	if(isset($_GET['viewUsers'])) {
 		// $userId = $_POST['userId'];
 		// initializeVariables();
 		$jsonData = array();
@@ -43,13 +46,12 @@
 		}
 		$userDetails = $userDetails . "</table>";
 		
-		echo $userDetails;
-		echo "<a href = '../../adminViewUser.php'>Go Back</a>";
+		$_SESSION['userDetails'] = $userDetails;
+		header("Location: ../../adminViewUser.php");
 	}
 	else {
-		$json = json_decode(file_get_contents("php://input"), true);
-
-		echo dbReadUsers();
+		$json = file_get_contents("php://input");
+		echo viewUser($json);
 	}
 ?>
 <!DOCTYPE html>

@@ -1,6 +1,12 @@
 <?php 
 	session_start();
 	echo "Welcome " . $_SESSION["user"];
+	if(!isset($_SESSION['userType'])) {
+		header("Location: index.php?invalidUser='true'");
+	}
+	else if(strcmp($_SESSION['userType'], "employee") == 0) {
+		header("Location: index.php?invalidUser='true'");
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -13,8 +19,8 @@
 <body>
 	<nav>
 		<ul>
-			<li><a href = "adminHomePage.php" class = "active">Home</a></li>
-			<li><a href = "adminViewUser.php">View all users</a></li>
+			<li><a href = "adminHomePage.php" class = 'active'>Home</a></li>
+			<li><a href = "api/logic/controllerViewUser.php?viewUsers='true'">View all users</a></li>
 			<li><a href = "newProduct.php">Add a new Product</a></li>
 			<li><a href = "viewProducts.php">View all the products</a></li>
 			<li><a href = "updateProduct.php">Update products</a></li>
@@ -22,6 +28,7 @@
 			<li><a href = "api/logic/logout.php">Logout</a></li>
 		</ul>
 	</nav>
+	<h1>Create a new user here</h1>
 	<form action = "api/logic/controllerNewUser.php" method = "post">
 		<label for = "username">User Name :</label>
 		<input type = "text" name = "username" id = "username" placeholder = "alphabets only" pattern = "[a-z A-Z]+" required/>

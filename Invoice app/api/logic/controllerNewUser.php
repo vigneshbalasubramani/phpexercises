@@ -3,6 +3,12 @@
 	include '../objects/user.php';
 
 	session_start();
+	if(!isset($_SESSION['userType'])) {
+		header("Location: ../../index.php?invalidUser='true'");
+	}
+	else if(strcmp($_SESSION['userType'], "employee") == 0) {
+		header("Location: ../../index.php?invalidUser='true'");
+	}
 	$userName;
 	$userType;
 	$userPassword;
@@ -18,9 +24,9 @@
 		$user -> setUserName($json["data"]["username"]);
 		$user -> setUserType($json["data"]["userType"]);
 		$user -> setUserPassword($json["data"]["password"]);
-		if(dbInsertUser($user)) {
+		
+		return dbInsertUser($user);
 			// echo "success";
-		}
 		// echo "failure";
 	}
 
@@ -41,25 +47,22 @@
 		$jsonObject = json_encode($jsonData);
 		addUser($jsonObject);
 		echo "successfully inserted";
-		echo "<br/><a href = '../../adminHomePage.php'>Go Back</a>"
+		echo "<br/><a href = '../../adminHomePage.php'>Go Back</a>";
 
 	}
 	else {
-		$json = json_decode(file_get_contents("php://input"), true);
-		$user = new User();
-		$user -> setUserName($json["data"]["username"]);
-		$user -> setUserType($json["data"]["userType"]);
-		$user -> setUserPassword($json["data"]["password"]);
-		if(dbInsertUser($user)) {
+		$json = file_get_contents("php://input");
+		if(addUser($json)) {
 			$jsonResponse = array(
 				"status" => "success"
 			);
 		}
 		else {
 			$jsonResponse = array(
-				"status" => "failure";
+				"status" => "failure"
 			);
 		}
+		echo json_encode($jsonResponse);
 	}
 ?>
 <!DOCTYPE html>

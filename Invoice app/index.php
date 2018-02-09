@@ -1,3 +1,11 @@
+<?php
+	if(isset($_GET['invalidCredentials'])){
+		echo "invalid Credentials. Please try again";
+	}
+	if(isset($_GET['invalidUser'])) {
+		echo "login first to proceed";
+	}
+?>
 <!DOCTYPE html>
 <html>
 <head>
