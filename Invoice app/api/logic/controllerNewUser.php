@@ -1,14 +1,13 @@
 <?php
-	include '../products/create.php';
-	include '../objects/user.php';
+	include_once '../products/create.php';
+	include_once '../objects/user.php';
+	include_once 'controllerAuthenticateUser.php';
+	include_once '../products/response.php';
+	include_once 'login.php';
 
-	session_start();
-	if(!isset($_SESSION['userType'])) {
-		header("Location: ../../index.php?invalidUser='true'");
-	}
-	else if(strcmp($_SESSION['userType'], "employee") == 0) {
-		header("Location: ../../index.php?invalidUser='true'");
-	}
+	if(!isset($_SESSION)){
+		session_start();
+	}	
 	$userName;
 	$userType;
 	$userPassword;
@@ -34,7 +33,7 @@
 		$userName = $_POST['username'];
 		$userPassword = $_POST['password'];
 		$userType = $_POST['userType'];
-		// initializeVariables();
+		authenticateAdmin();
 		$jsonData = array();
 		$jsonData["task"] = "add";
 		$jsonData["target"] = "user";
@@ -52,17 +51,17 @@
 	}
 	else {
 		$json = file_get_contents("php://input");
-		if(addUser($json)) {
-			$jsonResponse = array(
-				"status" => "success"
-			);
+		if(login($json) != "admin") {
+			echo $jsonFailureResponse;
 		}
 		else {
-			$jsonResponse = array(
-				"status" => "failure"
-			);
+			if(addUser($json)) {
+				echo $jsonSuccessResponse;
+			}
+			else {
+				echo $jsonFailureResponse;
+			}
 		}
-		echo json_encode($jsonResponse);
 	}
 ?>
 <!DOCTYPE html>

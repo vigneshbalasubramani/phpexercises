@@ -1,11 +1,14 @@
 <?php
-	session_start();
+	if(!isset($_SESSION)){
+		session_start();
+	}	
 	include_once '../products/update.php';
 	include_once '../products/read_one.php';
 	include_once '../products/read_specifics.php';
-	if(!isset($_SESSION['userType'])) {
-		header("Location: ../../index.php?invalidUser='true'");
-	}
+	include_once 'controllerAuthenticateUser.php';
+	include_once '../products/response.php';
+	include_once 'login.php';
+
 	$jsonData;
 
 	// function initializeVariables() {
@@ -52,7 +55,7 @@
 
 	if(isset($_POST['updateProduct'])) {
 		// $userId = $_POST['userId'];
-		// initializeVariables();
+		authenticateEmployee();
 		$jsonData = array();
 		$jsonData["task"] = "update";
 		$jsonData["target"] = "product";
@@ -78,18 +81,18 @@
 	}
 	else {
 		$json = file_get_contents("php://input");
-		$jsonSuccessResponse = array(
-			"status" => "success"
-		);
-		$jsonFailureResponse = array(
-			"status" => "failure"
-		);
-		if(updateProduct($json) == 0) {
+		if(login($json) == null) {
 			echo $jsonFailureResponse;
 		}
 		else {
-			echo $jsonSuccessResponse;
+			if(updateProduct($json) == 0) {
+				echo $jsonFailureResponse;
+			}
+			else {
+				echo $jsonSuccessResponse;
+			}	
 		}
+		
 	}
 ?>
 <!DOCTYPE html>

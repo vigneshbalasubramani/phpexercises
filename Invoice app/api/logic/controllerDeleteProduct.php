@@ -2,11 +2,14 @@
 	include_once '../products/delete.php';
 	include_once '../objects/product.php';
 	include_once '../products/read_specifics.php';
+	include_once 'controllerAuthenticateUser.php';
+	include_once '../products/response.php';
+	include_once 'login.php';
 
-	session_start();
-	if(!isset($_SESSION['userType'])){
-		header("Location: ../../index.php?invalidUser='true'");
-	}
+	if(!isset($_SESSION)){
+		session_start();
+	}	
+	
 	$jsonData;
 
 	// function initializeVariables() {
@@ -23,7 +26,7 @@
 
 	if(isset($_POST['deleteProduct'])) {
 		// $userId = $_POST['userId'];
-		// initializeVariables();
+		authenticateEmployee();
 		$jsonData = array();
 		$jsonData["task"] = "delete";
 		$jsonData["target"] = "product";
@@ -42,18 +45,16 @@
 	else {
 		$json = file_get_contents("php://input");
 
-		if(deleteProduct($json)){
-
-			$jsonResponse = array(
-				"status" => "success"
-			);
-			echo json_encode($jsonResponse);
+		if(login($json) == null) {
+			echo $jsonFailureResponse;
 		}
 		else {
-			$jsonResponse = array(
-				"status" => "failure"
-			);
-			echo json_encode($jsonResponse);
+			if(deleteProduct($json)){
+				echo $jsonSuccessResponse;
+			}
+			else {
+				echo $jsonFailureResponse;
+			}	
 		}
 	}
 

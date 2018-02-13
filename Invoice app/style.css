@@ -1,5 +1,5 @@
 body {
-	background-image: url("api/media/background.jpg");
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 100%), url("api/media/supermarketcart.jpg");
 	background-size: cover;
 	color: white;
 }
@@ -7,7 +7,7 @@ body {
 a {
 	text-decoration: none;
 	display: inline-block;
-	color: #f69901;
+	color: mintcream;
 	font-weight: bold;
 	margin: 1px;
 	padding-bottom: 2px;
@@ -20,7 +20,7 @@ li a {
 }
 
 .active {
-	border-bottom: 2px solid #f69901;
+	border-bottom: 2px solid floralwhite;
 }
 
 ul {
@@ -40,7 +40,7 @@ li {
 }
 
 form {
-	background-color: rgba(255, 255, 255, 0.6);
+	background-color: rgba(255, 255, 255, 0.5);
 	padding: 5%;
 	color: white;
 	font-weight: bold;
@@ -65,15 +65,19 @@ input[type = "password"]:focus {
 }
 
 input[type = "submit"] {
-	border: 2px solid #0b1740;
-	padding: 5px;
-	color: #0b1740;
+	border-radius: 6px;
+	padding: 10px;
+	background-color: navy;
+	box-shadow: 1px 2px grey;
+	color: white;
+	font-weight: bold;
 }
 
 input[type = "submit"]:hover {
-	background-color: #0b1740;
-	color: white;
-	border-color: white;
+	background-color: white;
+	color: navy;
+	border-color: navy;
+	box-shadow: none;
 }
 
 a:hover {
@@ -82,13 +86,17 @@ a:hover {
 
 th {
 	background-color: white;
-	color: #0b1407;
+	color: maroon;
+	border: 3px solid maroon;
+	padding: 10px;
 }
 
 td {
-	background-color: #0066ff;
+	background-color: maroon;
 	color: white;
+	border: 1px solid white;
 	text-align: center;
+	padding: 10px;
 }
 
 h1 {
@@ -104,4 +112,44 @@ table {
 	width: 40%;
 	margin-left: 25%;
 	border-collapse: collapse;
+}
+
+@media screen and (max-width: 900px) {
+	li {
+		width: 100%;
+		border: none;
+		padding: 5px 0px;
+		background-color: rgba(255, 255, 255, 0.5);
+	}
+
+	ul {
+		padding-left: 0px;
+	}
+
+	.active {
+		color: navy;
+		border: none;
+	}
+
+	a:hover {
+		border: none;
+		color: maroon;
+	}
+}
+
+@media screen and (max-width: 500px) {
+	table {
+		margin-left: 0%;
+		width: 90%;
+	}
+
+	td,
+	th {
+		padding: 10px 0px;
+	}
+
+	form {
+		margin-left: 0%;
+		width: 90%;
+	}
 }

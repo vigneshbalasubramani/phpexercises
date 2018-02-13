@@ -1,11 +1,14 @@
 <?php
 	include_once '../products/create.php';
 	include_once '../objects/product.php';
+	include_once 'controllerAuthenticateUser.php';
+	include_once '../products/response.php';
+	include_once 'login.php';
 
-	session_start();
-	if(!isset($_SESSION['userType'])) {
-		header("Location: ../../index.php?invalidUser='true'");
-	}
+	if(!isset($_SESSION)){
+		session_start();
+	}	
+	
 	$productName;
 	$productQuantity;
 	$productUnit;
@@ -31,7 +34,7 @@
 		$productQuantity = $_POST['productQuantity'];
 		$productUnit = $_POST['productUnit'];
 		$productPrice = $_POST['productPrice'];
-		// initializeVariables();
+		authenticateEmployee();
 		$jsonData = array();
 		$jsonData["task"] = "add";
 		$jsonData["target"] = "product";
@@ -54,17 +57,17 @@
 	}
 	else {
 		$json = file_get_contents("php://input");
-		if(addProduct($json)) {
-			$jsonResponse = array(
-				"status" => "success"
-			);
+		if(login($json) == null) {
+			echo $jsonFailureResponse;
 		}
 		else {
-			$jsonResponse = array(
-				"status" => "failure"
-			);
+			if(addProduct($json)) {
+				echo $jsonSuccessResponse;
+			}
+			else {
+				echo $jsonFailureResponse;
+			}
 		}
-		echo json_encode($jsonResponse);
 	}
 ?>
 <!DOCTYPE html>

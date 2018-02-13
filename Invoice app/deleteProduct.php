@@ -10,6 +10,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
 	<title>New product</title>
 	<link rel="stylesheet" href="style.css">
 </head>
@@ -26,6 +27,7 @@
 			<li><a href = "viewProducts.php">View all the products</a></li>
 			<li><a href = "updateProduct.php">Update products</a></li>
 			<li><a href = "deleteProduct.php" class = 'active'>Delete product</a></li>
+			<li><a href = "orderProduct.php">Order products</a></li>
 			<li><a href = "api/logic/logout.php">Logout</a></li>
 		</ul>
 	</nav>

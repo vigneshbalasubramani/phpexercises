@@ -14,6 +14,15 @@
 		}
 	}
 
+	function dbReduceProductQuantity($productId, $productQuantity) {
+		if(dbUpdate("update invoice.product set product_quantity = product_quantity - ? where product_id = ?", [$productQuantity, $productId])) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
 	function dbUpdateProductPrice($productId, $productPrice) {
 		if(dbUpdate("update invoice.product set product_price = ? where product_id = ?", [$productPrice, $productId])) {
 			return true;

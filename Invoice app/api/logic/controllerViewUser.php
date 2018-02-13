@@ -1,14 +1,14 @@
 <?php
 	include_once '../products/read.php';
 	include_once '../objects/user.php';
+	include_once 'controllerAuthenticateUser.php';
+	include_once '../logic/login.php';
+	include_once '../products/response.php';
 
-	session_start();
-	if(!isset($_SESSION['userType'])) {
-		header("Location: ../../index.php?invalidUser='true'");
-	}
-	else if(strcmp($_SESSION['userType'], "employee") == 0) {
-		header("Location: ../../index.php?invalidUser='true'");
-	}
+	if(!isset($_SESSION)){
+		session_start();
+	}	
+
 	$userName;
 	$userType;
 	$userPassword;
@@ -28,7 +28,7 @@
 
 	if(isset($_GET['viewUsers'])) {
 		// $userId = $_POST['userId'];
-		// initializeVariables();
+		authenticateAdmin();
 		$jsonData = array();
 		$jsonData["task"] = "view";
 		$jsonData["target"] = "user";
@@ -51,7 +51,12 @@
 	}
 	else {
 		$json = file_get_contents("php://input");
-		echo viewUser($json);
+		if(login($json) != "admin") {
+			echo $jsonFailureResponse;
+		}
+		else{
+			echo viewUser($json);
+		}
 	}
 ?>
 <!DOCTYPE html>
